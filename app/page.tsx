@@ -8,10 +8,14 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
+import Search from '@/components/Search'
 
 export default function Home() {
   const Map = dynamic(() => import('@/components/Map'), {
-    loading: () => <p>loading...</p>,
+    loading: () => (
+      <Skeleton className='h-[87%] w-[400px] rounded-[20px] lg:w-[800px] ' />
+    ),
     ssr: false
   })
   const categories = [
@@ -24,11 +28,11 @@ export default function Home() {
     'Other'
   ]
   return (
-    <main className='container flex flex-col space-y-4 lg:mt-6 lg:flex-row lg:gap-x-12'>
+    <main className='container my-4 flex flex-col space-y-4 lg:mt-6 lg:flex-row lg:gap-x-12'>
       {/* Wrapper div */}
-      <div>
-        <nav className=' z-50 flex items-center justify-between lg:justify-start lg:gap-x-16'>
-          <h1 className='text-3xl font-bold '>Hello World !</h1>
+      <div className=''>
+        <nav className=' z-50 mb-3 flex items-center justify-between lg:justify-start lg:gap-x-16'>
+          <h1 className='text-3xl font-bold  '>Hello World !</h1>
           <Select>
             <SelectTrigger className='z-40 w-[120px] md:w-[180px]'>
               <SelectValue placeholder='choose event ' />
@@ -42,7 +46,9 @@ export default function Home() {
             </SelectContent>
           </Select>
         </nav>
-        <section className='  -z-10 flex h-full w-full items-center justify-center lg:justify-start'>
+        <Search />
+
+        <section className='-z-10 mt-12 flex w-full items-center justify-center rounded-md lg:justify-start'>
           <Map />
         </section>
       </div>
@@ -53,7 +59,7 @@ export default function Home() {
           <ImStarFull className='text-3xl font-bold text-yellow-400' /> My
           Favorite
         </p>
-        <div className='h-full min-h-[79vh] w-full bg-slate-950'>
+        <div className='h-full min-h-[87vh] max-w-md bg-slate-950'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
           impedit rerum nulla corrupti quia sint aliquid. Quos saepe temporibus
           eaque voluptatibus minima nulla, eum veritatis ab omnis pariatur

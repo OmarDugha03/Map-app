@@ -11,6 +11,9 @@ import {
 import 'leaflet/dist/leaflet.css'
 import { useEventHandlers } from '@react-leaflet/core'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { marker } from '@/public'
+import { Icon } from 'leaflet'
+import { LeafletEvent } from 'leaflet'
 
 const Map = ({}) => {
   function SetViewOnClick({ animateRef }: { animateRef: any }) {
@@ -53,7 +56,14 @@ const Map = ({}) => {
 
     // Listen to events on the parent map
     const handlers = useMemo(() => ({ move: onChange, zoom: onChange }), [])
-    useEventHandlers({ instance: parentMap }, handlers)
+    useEventHandlers(
+      {
+        instance: parentMap,
+        //@ts-ignore
+        context: undefined
+      },
+      handlers
+    )
 
     return <Rectangle bounds={bounds} pathOptions={BOUNDS_STYLE} />
   }
@@ -65,7 +75,7 @@ const Map = ({}) => {
     const minimap = useMemo(
       () => (
         <MapContainer
-          style={{ height: 80, width: 80 }}
+          style={{ height: 50, width: 80 }}
           center={parentMap.getCenter()}
           zoom={mapZoom}
           dragging={false}
@@ -91,11 +101,17 @@ const Map = ({}) => {
   }
   const animateRef = useRef(false)
   const position: [number, number] = [51.505, -0.09]
+  const icon: Icon = new Icon({
+    iconUrl: 'marker.svg',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+  })
   return (
     <MapContainer
       className='h-[500px] w-[800px]'
       center={position}
       zoom={13}
+      style={{ borderRadius: '20px' }}
       placeholder={
         <>
           <p>
@@ -110,11 +126,10 @@ const Map = ({}) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />{' '}
-      <Marker position={position}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      <Marker position={position} icon={icon} />
+      <Popup>
+        A pretty CSS3 popup. <br /> Easily customizable.
+      </Popup>
       <MinimapControl position='topright' zoom={1} />
       <SetViewOnClick animateRef={animateRef} />
     </MapContainer>
