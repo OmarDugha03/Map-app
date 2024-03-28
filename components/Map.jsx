@@ -13,10 +13,9 @@ import { useEventHandlers } from '@react-leaflet/core'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { marker } from '@/public'
 import { Icon } from 'leaflet'
-import { LeafletEvent } from 'leaflet'
 
 const Map = ({}) => {
-  function SetViewOnClick({ animateRef }: { animateRef: any }) {
+  function SetViewOnClick({ animateRef }) {
     const map = useMapEvent('click', e => {
       map.setView(e.latlng, map.getZoom(), {
         animate: animateRef.current || false
@@ -25,7 +24,7 @@ const Map = ({}) => {
 
     return null
   }
-  const POSITION_CLASSES: any = {
+  const POSITION_CLASSES = {
     bottomleft: 'leaflet-bottom leaflet-left',
     bottomright: 'leaflet-bottom leaflet-right',
     topleft: 'leaflet-top leaflet-left',
@@ -34,12 +33,12 @@ const Map = ({}) => {
 
   const BOUNDS_STYLE = { weight: 1 }
 
-  function MinimapBounds({ parentMap, zoom }: { parentMap: any; zoom: any }) {
+  function MinimapBounds({ parentMap, zoom }) {
     const minimap = useMap()
 
     // Clicking a point on the minimap sets the parent's map center
     const onClick = useCallback(
-      (e: { latlng: any }) => {
+      e => {
         parentMap.setView(e.latlng, parentMap.getZoom())
       },
       [parentMap]
@@ -68,7 +67,7 @@ const Map = ({}) => {
     return <Rectangle bounds={bounds} pathOptions={BOUNDS_STYLE} />
   }
 
-  function MinimapControl({ position, zoom }: { position: any; zoom: any }) {
+  function MinimapControl({ position, zoom }) {
     const parentMap = useMap()
     const mapZoom = zoom || 0
 
@@ -100,8 +99,8 @@ const Map = ({}) => {
     )
   }
   const animateRef = useRef(false)
-  const position: [number, number] = [51.505, -0.09]
-  const icon: Icon = new Icon({
+  const position = [51.505, -0.09]
+  const icon = new Icon({
     iconUrl: 'marker.svg',
     iconSize: [25, 41],
     iconAnchor: [12, 41]
