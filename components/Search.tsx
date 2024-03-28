@@ -24,7 +24,6 @@ const formSchema = z.object({
 interface SearchProps {}
 
 const Search: FC<SearchProps> = ({}) => {
-  const searchParams = useSearchParams()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
